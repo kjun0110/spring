@@ -10,18 +10,18 @@ public class HomeController {
     public String index() {
         return "index";
     }
-    
-    @GetMapping("/login")
+
+    @GetMapping("/auth/login.html")
     public String login() {
         return "auth/login";
     }
-    
-    @GetMapping("/register")
+
+    @GetMapping("/move/auth/register")
     public String register() {
         return "auth/register";
     }
     
-    @GetMapping("/find-account")
+    @GetMapping("/move/auth/find-account")
     public String findAccount() {
         return "auth/find-account";
     }

@@ -186,15 +186,15 @@
             
             <h1>🔐 로그인</h1>
             
-            <form id="loginForm">
+            <form action="/auth/login" method="get">
                 <div class="form-group">
-                    <label for="username">아이디</label>
-                    <input type="text" id="username" placeholder="아이디를 입력하세요" required>
+                    <label for="email">이메일</label>
+                    <input type="text" id="email" name="email" placeholder="이메일을 입력하세요 (예: user@example.com)" value="a" >
                 </div>
                 
                 <div class="form-group">
                     <label for="password">비밀번호</label>
-                    <input type="password" id="password" placeholder="비밀번호를 입력하세요" required>
+                    <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요" required value="b">
                 </div>
                 
                 <div class="login-options">
@@ -202,7 +202,7 @@
                         <input type="checkbox" id="keepLogin">
                         <span>로그인 상태 유지</span>
                     </label>
-                    <a href="/find-account" class="find-account">아이디/비밀번호 찾기</a>
+                    <a href="/move/auth/find-account" class="find-account">이메일/비밀번호 찾기</a>
                 </div>
                 
                 <button type="submit" class="btn-login">로그인</button>
@@ -223,7 +223,7 @@
             </div>
             
             <div class="signup-link">
-                계정이 없으신가요? <a href="/register">회원가입</a>
+                계정이 없으신가요? <a href="/move/auth/register">회원가입</a>
             </div>
         </div>
     </div>
@@ -231,17 +231,15 @@
     <script>
         // 로그인 처리
         document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
+            // e.preventDefault() 제거 - form이 실제로 submit되어야 주소창에 파라미터가 보임
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const keepLogin = document.getElementById('keepLogin').checked;
             
             // TODO: 실제 로그인 API 호출
-            console.log('로그인 시도:', { username, password, keepLogin });
-            alert(`로그인 성공: ${username}${keepLogin ? ' (로그인 상태 유지)' : ''}`);
+            console.log('로그인 시도:', { email, password, keepLogin });
             
-            // 로그인 성공 시 홈으로 이동
-            window.location.href = '/';
+            // 폼이 정상적으로 submit됨 (주소창에 ?email=a&password=b 표시)
         });
 
         // 소셜 로그인

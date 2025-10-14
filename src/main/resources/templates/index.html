@@ -21,7 +21,7 @@
         
         <!-- 우측 상단 로그인 영역 -->
         <div class="login-area">
-            <button class="btn-login-open" onclick="location.href='/login'">로그인</button>
+            <button class="btn-login-open" onclick="location.href='/auth/login.html'">로그인</button>
         </div>
     </nav>
 
@@ -44,8 +44,8 @@
             </div>
             <form class="login-form" id="loginForm">
                 <div class="form-group">
-                    <label for="username">아이디</label>
-                    <input type="text" placeholder="아이디를 입력하세요" id="username" required>
+                    <label for="email">아이디</label>
+                    <input type="email" placeholder="아이디를 입력하세요" id="email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">비밀번호</label>
@@ -103,7 +103,7 @@
             <form class="login-form" id="findIdForm" style="display: block;">
                 <div class="form-group">
                     <label for="find-id-name">이름</label>
-                    <input type="text" placeholder="이름을 입력하세요" id="find-id-name" required>
+                    <input type="email" placeholder="이름을 입력하세요" id="find-id-name" required>
                 </div>
                 <div class="form-group">
                     <label for="find-id-email">이메일</label>
@@ -116,7 +116,7 @@
             <form class="login-form" id="findPasswordForm" style="display: none;">
                 <div class="form-group">
                     <label for="find-pw-username">아이디</label>
-                    <input type="text" placeholder="아이디를 입력하세요" id="find-pw-username" required>
+                    <input type="email" placeholder="아이디를 입력하세요" id="find-pw-username" required>
                 </div>
                 <div class="form-group">
                     <label for="find-pw-email">이메일</label>
