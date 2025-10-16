@@ -35,31 +35,22 @@ public class CalculatorController {
 
         // 서비스에서 결과 받기
         double result = calculatorService.calculator(calculatorDTO);
-        
-        
-        // 연산자 이름 결정
-        String operatorName = "";
-        switch (opcode) {
-            case "+":
-                operatorName = "덧셈";
-                break;
-            case "-":
-                operatorName = "뺄셈";
-                break;
-            case "*":
-                operatorName = "곱셈";
-                break;
-            case "/":
-                operatorName = "나눗셈";
-                break;
-            default:
-                operatorName = "알 수 없는 연산";
-                break;
+        String opcodeName = "";
+        if (opcode.equals("+")) {
+            opcodeName = "덧셈";
+        } else if (opcode.equals("-")) {
+            opcodeName = "뺄셈";
+        } else if (opcode.equals("*")) {
+            opcodeName = "곱셈";
+        } else if (opcode.equals("/")) {
+            opcodeName = "나눗셈";
+        } else {
+            opcodeName = "연산자오류";
         }
 
         // 콘솔에 출력
         System.out.println("=== 통합 계산기 컨트롤러 ===");
-        System.out.println("연산: " + operatorName);
+        System.out.println("연산: " + opcodeName);
         System.out.println("첫 번째 숫자: " + number1);
         System.out.println("연산자: " + opcode);
         System.out.println("두 번째 숫자: " + number2);
