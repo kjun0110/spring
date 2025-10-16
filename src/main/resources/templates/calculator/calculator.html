@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합 계산기 - Calculator</title>
+    <link rel="stylesheet" href="/styles/calculator.css">
+</head>
+
+<body>
+    <div class="calculator-container">
+        <a href="/" class="back-link">← 홈으로 돌아가기</a>
+
+        <h1>🧮 통합 계산기</h1>
+
+        <form id="calculatorForm" action="/calculator/calculator" method="get">
+            <!-- 첫 번째 숫자 -->
+            <div class="input-group">
+                <label for="number1">첫 번째 숫자</label>
+                <input type="number" id="number1" name="number1" placeholder="숫자를 입력하세요" step="any" required>
+            </div>
+
+            <!-- 연산자 입력 -->
+            <div class="input-group">
+                <label for="opcode">연산자 (+, -, *, /)</label>
+                <input type="text" id="opcode" name="opcode" placeholder="연산자를 입력하세요 (+, -, *, /)" maxlength="1"
+                    required>
+            </div>
+
+            <!-- 두 번째 숫자 -->
+            <div class="input-group">
+                <label for="number2">두 번째 숫자</label>
+                <input type="number" id="number2" name="number2" placeholder="숫자를 입력하세요" step="any" required>
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                모든 값을 올바르게 입력해주세요.
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-calculate">계산하기</button>
+                <button type="button" class="btn-reset" onclick="resetCalculator()">초기화</button>
+            </div>
+        </form>
+
+        <div class="result-container" id="resultContainer">
+            <div class="result-label">계산 결과</div>
+            <div class="result-value" id="resultValue">0</div>
+            <div class="calculation-display" id="calculationDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('calculatorForm');
+        const number1Input = document.getElementById('number1');
+        const number2Input = document.getElementById('number2');
+        const operatorInput = document.getElementById('opcode');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultValue = document.getElementById('resultValue');
+        const calculationDisplay = document.getElementById('calculationDisplay');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // 폼 제출 이벤트 (서버로 전송)
+        form.addEventListener('submit', function (e) {
+            const num1 = parseFloat(number1Input.value);
+            const num2 = parseFloat(number2Input.value);
+            const operator = operatorInput.value;
+
+            // 유효성 검사만 수행
+            if (isNaN(num1) || isNaN(num2)) {
+                e.preventDefault();
+                errorMessage.textContent = '올바른 숫자를 입력해주세요.';
+                errorMessage.classList.add('show');
+                return false;
+            }
+
+            if (!operator || !['+', '-', '*', '/'].includes(operator)) {
+                e.preventDefault();
+                errorMessage.textContent = '올바른 연산자를 입력해주세요 (+, -, *, /)';
+                errorMessage.classList.add('show');
+                return false;
+            }
+
+            if (operator === '/' && num2 === 0) {
+                e.preventDefault();
+                errorMessage.textContent = '0으로 나눌 수 없습니다.';
+                errorMessage.classList.add('show');
+                return false;
+            }
+
+            // 유효성 검사 통과하면 서버로 전송됨
+        });
+
+
+        // 초기화 함수
+        function resetCalculator() {
+            number1Input.value = '';
+            number2Input.value = '';
+            operatorInput.value = '';
+            resultContainer.classList.remove('show');
+            errorMessage.classList.remove('show');
+            number1Input.focus();
+        }
+
+        // 입력 시 에러 메시지 숨기기
+        number1Input.addEventListener('input', hideError);
+        number2Input.addEventListener('input', hideError);
+        operatorInput.addEventListener('input', hideError);
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        // Enter 키 처리
+        number1Input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                operatorInput.focus();
+            }
+        });
+
+        operatorInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                number2Input.focus();
+            }
+        });
+
+        number2Input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // 페이지 로드 시 첫 번째 입력란에 포커스
+        window.addEventListener('load', function () {
+            number1Input.focus();
+        });
+    </script>
+</body>
+
+</html>

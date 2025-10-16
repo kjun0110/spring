@@ -1,11 +1,11 @@
-package kr.ai.kjun.api.controller;
+package kr.ai.kjun.api.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    
+
     @GetMapping("/")
     public String index() {
         return "index";
@@ -20,29 +20,34 @@ public class HomeController {
     public String register() {
         return "auth/register";
     }
-    
+
     @GetMapping("/move/auth/find-account")
     public String findAccount() {
         return "auth/find-account";
     }
-    
-    @GetMapping("/calculator/plus")
+
+    @GetMapping("/calculator/plus.html")
     public String plus() {
-        return "contents/calculator/plus";
+        return "calculator/plus";
     }
 
-    @GetMapping("/calculator/minus")
+    @GetMapping("/calculator/minus.html")
     public String minus() {
-        return "contents/calculator/minus";
+        return "calculator/minus";
     }
 
-    @GetMapping("/contents/calculator/times")
+    @GetMapping("/calculator/times.html")
     public String times() {
-        return "contents/calculator/times";
+        return "calculator/times";
     }
 
-    @GetMapping("/contents/calculator/devide")
+    @GetMapping("/calculator/devide.html")
     public String devide() {
-        return "contents/calculator/devide";
+        return "calculator/devide";
+    }
+
+    @GetMapping("/calculator/calculator.html")
+    public String calculator() {
+        return "calculator/calculator";
     }
 }

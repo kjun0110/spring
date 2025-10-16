@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>곱셈 계산기 - Calculator</title>
+    <link rel="stylesheet" href="/styles/plus.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <a href="/" class="back-link">← 홈으로 돌아가기</a>
+        
+        <h1>✖️ 곱셈 계산기</h1>
+        
+        <form id="calculatorForm" action="/calculator/times" method="post">
+            <div class="input-group">
+                <label for="number1">첫 번째 숫자</label>
+                <input 
+                    type="number" 
+                    id="number1"
+                    name="number1"
+                    placeholder="숫자를 입력하세요" 
+                    step="any"
+                    required
+                >
+            </div>
+
+            <div class="operator-symbol">×</div>
+
+            <div class="input-group">
+                <label for="number2">두 번째 숫자</label>
+                <input 
+                    type="number" 
+                    id="number2"
+                    name="number2"
+                    placeholder="숫자를 입력하세요" 
+                    step="any"
+                    required
+                >
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                올바른 숫자를 입력해주세요.
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-calculate">계산하기</button>
+                <button type="button" class="btn-reset" onclick="resetCalculator()">초기화</button>
+            </div>
+        </form>
+
+        <div class="result-container" id="resultContainer">
+            <div class="result-label">계산 결과</div>
+            <div class="result-value" id="resultValue">0</div>
+            <div class="calculation-display" id="calculationDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('calculatorForm');
+        const number1Input = document.getElementById('number1');
+        const number2Input = document.getElementById('number2');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // 폼 제출 이벤트 (서버로 전송)
+        form.addEventListener('submit', function(e) {
+            const num1 = parseFloat(number1Input.value);
+            const num2 = parseFloat(number2Input.value);
+            
+            if (isNaN(num1) || isNaN(num2)) {
+                e.preventDefault();
+                errorMessage.classList.add('show');
+                return false;
+            }
+        });
+
+        // 입력 필드에서 Enter 키 처리
+        number1Input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                number2Input.focus();
+            }
+        });
+
+        // 입력 시 에러 메시지 숨기기
+        number1Input.addEventListener('input', hideError);
+        number2Input.addEventListener('input', hideError);
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        function resetCalculator() {
+            number1Input.value = '';
+            number2Input.value = '';
+            errorMessage.classList.remove('show');
+            number1Input.focus();
+        }
+
+        // 페이지 로드 시 첫 번째 입력란에 포커스
+        window.addEventListener('load', function() {
+            number1Input.focus();
+        });
+    </script>
+</body>
+</html>
