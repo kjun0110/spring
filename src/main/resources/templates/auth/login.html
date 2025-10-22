@@ -1,31 +1,33 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 - API Server</title>
     <link rel="stylesheet" href="/styles/login.css">
 </head>
+
 <body>
     <div class="login-container">
         <div class="login-box">
             <div class="back-home">
                 <a href="/">← 홈으로 돌아가기</a>
             </div>
-            
+
             <h1>🔐 로그인</h1>
-            
-            <form action="/auth/login" method="get">
+
+            <form id="loginForm" action="/auth/login" method="get">
                 <div class="form-group">
                     <label for="email">이메일</label>
-                    <input type="text" id="email" name="email" placeholder="이메일을 입력하세요 (예: user@example.com)" value="a" >
+                    <input type="text" id="email" name="email" placeholder="이메일을 입력하세요 (예: user@example.com)" value="a">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="password">비밀번호</label>
                     <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요" required value="b">
                 </div>
-                
+
                 <div class="login-options">
                     <label class="keep-login">
                         <input type="checkbox" id="keepLogin">
@@ -33,15 +35,16 @@
                     </label>
                     <a href="/move/auth/find-account" class="find-account">이메일/비밀번호 찾기</a>
                 </div>
-                
+
                 <button type="submit" class="btn-login">로그인</button>
             </form>
-            
+
             <div class="divider">또는</div>
-            
+
             <div class="social-login">
                 <button class="social-btn google" onclick="socialLogin('google')">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 20px; height: 20px;">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                        style="width: 20px; height: 20px;">
                 </button>
                 <button class="social-btn naver" onclick="socialLogin('naver')">
                     <span style="color: white; font-weight: bold; font-size: 1rem;">N</span>
@@ -50,7 +53,12 @@
                     <span style="font-weight: bold; font-size: 1rem;">K</span>
                 </button>
             </div>
-            
+
+            <div th:if="${messenger != null}" th:object="${messenger}">
+                <p>code: <span th:text="*{code}">CODE</span></p>
+                <p>message: <span th:text="*{message}">MESSAGE</span></p>
+            </div>
+
             <div class="signup-link">
                 계정이 없으신가요? <a href="/move/auth/register">회원가입</a>
             </div>
@@ -59,15 +67,15 @@
 
     <script>
         // 로그인 처리
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
             // e.preventDefault() 제거 - form이 실제로 submit되어야 주소창에 파라미터가 보임
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const keepLogin = document.getElementById('keepLogin').checked;
-            
+
             // TODO: 실제 로그인 API 호출
             console.log('로그인 시도:', { email, password, keepLogin });
-            
+
             // 폼이 정상적으로 submit됨 (주소창에 ?email=a&password=b 표시)
         });
 
@@ -79,5 +87,5 @@
         }
     </script>
 </body>
-</html>
 
+</html>
