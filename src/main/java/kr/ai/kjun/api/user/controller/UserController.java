@@ -9,7 +9,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
 
 import jakarta.annotation.PostConstruct;
 import kr.ai.kjun.api.common.domain.Messenger;
@@ -23,14 +23,8 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostConstruct
-    public void init() {
-        printFirstFivePassengers();
-    }
-
     @GetMapping("/register")
-    @ResponseBody
-    public Messenger printFirstFivePassengers() {
+    public String printFirstFivePassengers(Model model) {
         try {
             // CSV 파일 경로
             String csvFilePath = "src/main/resources/static/csv/train.csv";
@@ -78,13 +72,17 @@ public class UserController {
             Messenger messenger = new Messenger();
             messenger.setCode(200);
             messenger.setMessage("CSV 파일 읽기 성공");
-            return messenger;
+            model.addAttribute("messenger", messenger);
+            model.addAttribute("users", users);
+            return "user/list";
 
         } catch (Exception e) {
+            e.printStackTrace();
             Messenger messenger = new Messenger();
             messenger.setCode(500);
-            messenger.setMessage("CSV 파일 읽기 오류");
-            return messenger;
+            messenger.setMessage("CSV 파일 읽기 오류: " + e.getMessage());
+            model.addAttribute("messenger", messenger);
+            return "user/list";
         }
     }
 
