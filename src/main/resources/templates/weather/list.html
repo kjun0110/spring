@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>날씨 정보 목록</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .messenger {
+            background-color: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+
+        .error {
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .weather-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .weather-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .weather-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .weather-item strong {
+            display: block;
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-bottom: 3px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 10px 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🌤️ 날씨 정보 목록</h1>
+
+        <!-- 메신저 메시지 표시 -->
+        <div th:if="${messenger}" th:class="${messenger.code == 200 ? 'messenger' : 'messenger error'}"
+            th:text="${messenger.message}">
+        </div>
+
+        <!-- 데이터 로드 상태 표시 -->
+        <div th:if="${messenger != null and messenger.code == 200}" class="messenger"
+            style="background-color: #e3f2fd; border-color: #2196f3; color: #0d47a1;">
+            <strong>✅ 데이터 로드 완료!</strong> CSV 파일에서 날씨 데이터를 성공적으로 읽어왔습니다.
+        </div>
+
+        <!-- 날씨 데이터가 있는 경우 -->
+        <div th:if="${weathers != null and !weathers.empty}">
+            <div class="weather-grid">
+                <div th:each="weather : ${weathers}" class="weather-card">
+                    <h3 th:text="${weather.date}">날짜</h3>
+                    <div class="weather-info">
+                        <div class="weather-item">
+                            <strong>평균기온</strong>
+                            <span th:text="${weather.avgTemp} + '℃'">평균기온</span>
+                        </div>
+                        <div class="weather-item">
+                            <strong>최고기온</strong>
+                            <span th:text="${weather.maxTemp} + '℃'">최고기온</span>
+                        </div>
+                        <div class="weather-item">
+                            <strong>최저기온</strong>
+                            <span th:text="${weather.minTemp} + '℃'">최저기온</span>
+                        </div>
+                        <div class="weather-item">
+                            <strong>일교차</strong>
+                            <span th:text="${weather.tempRange} + '℃'">일교차</span>
+                        </div>
+                        <div class="weather-item">
+                            <strong>최고기온시각</strong>
+                            <span th:text="${weather.maxTempTime}">최고기온시각</span>
+                        </div>
+                        <div class="weather-item">
+                            <strong>최저기온시각</strong>
+                            <span th:text="${weather.minTempTime}">최저기온시각</span>
+                        </div>
+                        <div class="weather-item" style="grid-column: 1 / -1;">
+                            <strong>강수량</strong>
+                            <span th:text="${weather.precipitation} + 'mm'">강수량</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 날씨 데이터가 없는 경우 -->
+        <div th:if="${weathers == null or weathers.empty}" class="no-data">
+            <h3>📊 데이터가 없습니다</h3>
+            <p>CSV 파일에서 날씨 데이터를 먼저 로드해주세요.</p>
+        </div>
+
+        <!-- 액션 버튼들 -->
+        <div style="text-align: center; margin-top: 30px;">
+            <form action="/weathers/all" method="post" style="display: inline-block; margin: 0 10px;"
+                onsubmit="showLoading(this)">
+                <button type="submit" class="btn">📥 CSV 파일에서 날씨 데이터 로드</button>
+            </form>
+            <form action="/weathers/all" method="post" style="display: inline-block; margin: 0 10px;"
+                onsubmit="showLoading(this)">
+                <button type="submit" class="btn btn-secondary">🔄 데이터 새로고침</button>
+            </form>
+        </div>
+
+        <!-- 로딩 상태 표시 -->
+        <div id="loadingMessage"
+            style="display: none; text-align: center; margin-top: 20px; color: #2196f3; font-weight: bold;">
+            <div style="display: inline-block; animation: spin 1s linear infinite; margin-right: 10px;">⏳</div>
+            CSV 파일을 읽고 날씨 데이터를 로드하는 중입니다...
+        </div>
+
+        <!-- 사용 안내 -->
+        <div style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9em;">
+            <p>💡 <strong>사용법:</strong> "CSV 파일에서 날씨 데이터 로드" 버튼을 클릭하면 날씨 데이터가 터미널에 출력되고 웹페이지에 표시됩니다.</p>
+        </div>
+    </div>
+
+    <script>
+        function showLoading(form) {
+            // 로딩 메시지 표시
+            document.getElementById('loadingMessage').style.display = 'block';
+
+            // 버튼 비활성화
+            const buttons = form.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+            });
+
+            // 폼 제출
+            return true;
+        }
+    </script>
+</body>
+
+</html>

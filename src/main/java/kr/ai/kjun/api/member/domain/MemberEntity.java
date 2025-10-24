@@ -1,7 +1,6 @@
-package kr.ai.kjun.api.user.domain;
+package kr.ai.kjun.api.member.domain;
 
-public class UserEntity {
-    
+public class MemberEntity {
     private String userId;
     private String survived;
     private String pclass;
@@ -14,5 +13,4 @@ public class UserEntity {
     private String fare;
     private String cabin;
     private String embarked;
-
 }

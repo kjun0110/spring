@@ -1,14 +1,10 @@
-package kr.ai.kjun.api.calculator.controller;
+package kr.ai.kjun.api.calculator.service;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Service;
 
 import kr.ai.kjun.api.calculator.domain.CalculatorDTO;
-import kr.ai.kjun.api.calculator.service.CalculatorService;
-
-@Controller
-public class CalculatorController implements CalculatorService  {
+@Service
+public class CalculatorServiceImpl implements CalculatorService {
 
     @Override
     public int add(CalculatorDTO calculatorDTO) {
@@ -34,6 +30,4 @@ public class CalculatorController implements CalculatorService  {
         throw new UnsupportedOperationException("Unimplemented method 'divide'");
     }
 
-
-
-    }
+}

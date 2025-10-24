@@ -2,22 +2,16 @@ package kr.ai.kjun.api.user.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
+import kr.ai.kjun.api.common.domain.Messenger;
 import kr.ai.kjun.api.user.domain.UserDTO;
-import kr.ai.kjun.api.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
 
-    public void saveUsers(List<UserDTO> users) {
-        userRepository.saveUsers(users);
-    }
+public interface UserService {
 
-    public void printUsers() {
-        userRepository.printUsers();
-    }
+    public Messenger saveAll(List<UserDTO> users);
+    public Messenger save(UserDTO userDto);
+    public Messenger update(UserDTO userDto);
+    public Messenger delete(String id);
+    public Messenger findById(String id);
+    public Messenger findAll();
 }

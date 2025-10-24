@@ -1,7 +1,12 @@
-package kr.ai.kjun.api.user.domain;
+package kr.ai.kjun.api.member.domain;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class UserEntity {
-    
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberDto {
     private String userId;
     private String survived;
     private String pclass;
@@ -14,5 +19,5 @@ public class UserEntity {
     private String fare;
     private String cabin;
     private String embarked;
-
+    
 }

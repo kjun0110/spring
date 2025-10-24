@@ -1,16 +1,14 @@
 package kr.ai.kjun.api.calculator.domain;
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalculatorDTO {
-
+public class CalculatorVO {
     private double number1;
     private String opcode;
     private double number2;
-
-    
 }
