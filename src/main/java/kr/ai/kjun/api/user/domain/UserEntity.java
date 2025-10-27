@@ -1,7 +1,7 @@
 package kr.ai.kjun.api.user.domain;
 
 public class UserEntity {
-    
+
     private String userId;
     private String survived;
     private String pclass;

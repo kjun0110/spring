@@ -39,8 +39,8 @@ public class ProductController {
     public String saveAll(List<ProductDto> products, Model model) {
         Messenger messenger = productService.saveAll(products);
         model.addAttribute("messenger", messenger);
-            return "Product/list";
-        }
+        return "Product/list";
+    }
 
     @PutMapping("/{id}")
     public String update(Model model) {
