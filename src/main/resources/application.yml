@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: api
+  
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+  
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/templates/
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/esgaidadb
+    username: esgaida
+    password: Esgaida0930!
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
